@@ -1,41 +1,104 @@
 # Next.js + FastAPI Dockerized Template
 
-A modern, dockerized template for building full-stack web applications with Next.js (frontend) and FastAPI (backend).
+A modern, production-ready template for building full-stack web applications with Next.js (frontend) and FastAPI (backend). Features automatic project configuration, Docker containerization, and seamless development workflow.
+
+## ✨ Features
+
+- 🔥 **Hot Reload**: Both frontend and backend support hot reloading during development
+- 🐳 **Docker Ready**: Fully containerized with separate dev/prod configurations
+- 🎯 **Auto Configuration**: Automatic project naming and environment setup
+- 🚀 **API Integration**: Built-in API routes with proper error handling
+- 📱 **Modern Stack**: Next.js 15, FastAPI, TypeScript, Tailwind CSS
+- 🔧 **Developer Friendly**: Health checks, cleanup scripts, and helpful tooling
 
 ## 🚀 Quick Start
 
-### Development Environment
+### Method 1: Clone and Rename (Recommended)
 
-1. **Clone the repository**
+1. **Clone and rename your project**
    ```bash
-   git clone <your-repo-url>
-   cd nextjs-fastapi-dockerized-template
+   git clone <this-repo> my-awesome-project
+   cd my-awesome-project
    ```
 
-2. **Start development environment**
+2. **Run setup (optional)**
+   ```bash
+   ./setup.sh  # Helps configure project name and environment
+   ```
+
+3. **Start development environment**
    ```bash
    ./dev.sh
    ```
-   Or manually:
-   ```bash
-   docker-compose -f docker-compose.dev.yml up --build -d
-   ```
 
-3. **Access the applications**
+4. **Access your application**
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:8000
    - API Documentation: http://localhost:8000/docs
 
+### Method 2: Use Template As-Is
+
+1. **Clone the repository**
+   ```bash
+   git clone <this-repo>
+   cd nextjs-fastapi-dockerized-template
+   ```
+
+2. **Start development**
+   ```bash
+   ./dev.sh
+   ```
+
+## 🔧 Configuration
+
+### Environment Variables
+
+The template uses a `.env` file for configuration. Copy `.env.example` to `.env` and customize:
+
+```bash
+cp .env.example .env
+```
+
+Key variables:
+- `PROJECT_NAME`: Your project name (auto-detected from directory if not set)
+- `FRONTEND_PORT`: Frontend port (default: 3000)
+- `BACKEND_PORT`: Backend port (default: 8000)
+- `API_URL`: Internal API URL for server-side calls
+- `NEXT_PUBLIC_API_URL`: Public API URL for client-side calls
+
 ### Production Environment
 
-1. **Start production environment**
-   ```bash
-   ./prod.sh
-   ```
-   Or manually:
-   ```bash
-   docker-compose up --build -d
-   ```
+```bash
+./prod.sh  # Starts production containers
+```
+
+## 🛠 Management Scripts
+
+The template includes several helper scripts for easy project management:
+
+### Core Scripts
+- `./dev.sh` - Start development environment with hot reload
+- `./prod.sh` - Start production environment
+- `./setup.sh` - Initial project setup and configuration
+- `./clean.sh` - Clean up containers, images, and volumes
+
+### Features
+- **Auto Project Detection**: Scripts automatically detect your project name from the directory
+- **No Orphan Warnings**: Uses project-specific naming to avoid Docker conflicts
+- **Health Checks**: Automatic verification that services are running
+- **Environment Support**: Loads configuration from `.env` file if present
+
+### Stop Containers
+```bash
+# Stop development environment
+docker-compose -f docker-compose.dev.yml -p your-project-name-dev down
+
+# Stop production environment  
+docker-compose -f docker-compose.yml -p your-project-name-prod down
+
+# Or use the clean script for complete cleanup
+./clean.sh
+```
 
 ## 📁 Project Structure
 
@@ -61,9 +124,12 @@ nextjs-fastapi-dockerized-template/
 │   └── tsconfig.json         # TypeScript configuration
 ├── docker-compose.yml         # Production docker compose
 ├── docker-compose.dev.yml     # Development docker compose
-├── dev.sh                     # Development startup script
-├── prod.sh                    # Production startup script
-└── README.md                  # This file
+├── .env.example              # Environment variables template
+├── dev.sh                    # Development startup script
+├── prod.sh                   # Production startup script
+├── setup.sh                  # Project setup script
+├── clean.sh                  # Cleanup script
+└── README.md                 # This file
 ```
 
 ## 🛠 Technology Stack

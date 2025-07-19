@@ -7,7 +7,7 @@ services:
     volumes:
       - ./backend:/app/
     ports:
-      - "8000:8000"
+      - "${BACKEND_PORT:-8000}:8000"
     networks:
       - app-network
 
@@ -16,11 +16,12 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     environment:
-      - API_URL=http://backend-dev:8000
+      - API_URL=${API_URL:-http://backend-dev:8000}
+      - NODE_ENV=${NODE_ENV:-development}
     depends_on:
       - backend-dev
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT:-3000}:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules
