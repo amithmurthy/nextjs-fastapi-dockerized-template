@@ -1,0 +1,35 @@
+services:
+
+  backend-dev:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./backend:/app/
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    environment:
+      - API_URL=http://backend:8000
+    depends_on:
+      - backend-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - app-network
+
+volumes:
+  tiles-data:
+
+networks:
+  app-network:
+    driver: bridge
