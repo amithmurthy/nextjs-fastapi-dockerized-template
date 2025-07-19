@@ -61,16 +61,33 @@ cp .env.example .env
 
 Key variables:
 - `PROJECT_NAME`: Your project name (auto-detected from directory if not set)
-- `FRONTEND_PORT`: Frontend port (default: 3000)
-- `BACKEND_PORT`: Backend port (default: 8000)
-- `API_URL`: Internal API URL for server-side calls
-- `NEXT_PUBLIC_API_URL`: Public API URL for client-side calls
+- `DEV_FRONTEND_PORT`: Development frontend port (default: 3000)
+- `DEV_BACKEND_PORT`: Development backend port (default: 8000)
+- `PROD_FRONTEND_PORT`: Production frontend port (default: 3001)
+- `PROD_BACKEND_PORT`: Production backend port (default: 8001)
+- `DEV_API_URL`, `PROD_API_URL`: Environment-specific internal API URLs
+- `DEV_NEXT_PUBLIC_API_URL`, `PROD_NEXT_PUBLIC_API_URL`: Environment-specific public API URLs
+
+**Legacy variables** (for backward compatibility):
+- `FRONTEND_PORT`, `BACKEND_PORT`: Used as fallbacks if environment-specific ports not set
 
 ### Production Environment
 
 ```bash
-./prod.sh  # Starts production containers
+./prod.sh  # Starts production containers on ports 3001/8001
 ```
+
+### Simultaneous Development and Production
+
+You can run both environments simultaneously! The template uses different default ports:
+
+- **Development**: Frontend :3000, Backend :8000
+- **Production**: Frontend :3001, Backend :8001
+
+```bash
+./dev.sh   # Development on localhost:3000
+./prod.sh  # Production on localhost:3001
+# Both running at the same time!
 
 ## 🛠 Management Scripts
 

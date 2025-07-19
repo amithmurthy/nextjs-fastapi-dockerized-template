@@ -3,7 +3,7 @@ services:
   backend:
     build: ./backend
     ports:
-      - "${BACKEND_PORT:-8000}:8000"
+      - "${PROD_BACKEND_PORT:-${BACKEND_PORT:-8001}}:8000"
     networks:
       - app-network
 
@@ -12,12 +12,13 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.prod
     environment:
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+      - NEXT_PUBLIC_API_URL=${PROD_NEXT_PUBLIC_API_URL:-${NEXT_PUBLIC_API_URL:-http://localhost:8001}}
       - NODE_ENV=${NODE_ENV:-production}
+      - API_URL=${PROD_API_URL:-${API_URL:-http://backend:8000}}
     depends_on:
       - backend
     ports:
-      - "${FRONTEND_PORT:-3000}:3000"
+      - "${PROD_FRONTEND_PORT:-${FRONTEND_PORT:-3001}}:3000"
     networks:
       - app-network
 
