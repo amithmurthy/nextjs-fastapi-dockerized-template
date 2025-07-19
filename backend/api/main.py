@@ -26,19 +26,6 @@ async def health_check():
     return {"status": "healthy", "service": "backend"}
 
 
-@app.get("/")
-async def root():
-    return {"message": "Tiles API is running"}
-
-
-
-@app.get("/health")
-async def health_check():
-    return {
-        "status": "healthy!", 
-        "service": "backend",
-    }
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

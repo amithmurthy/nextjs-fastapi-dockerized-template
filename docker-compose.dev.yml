@@ -16,7 +16,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     environment:
-      - API_URL=http://backend:8000
+      - API_URL=http://backend-dev:8000
     depends_on:
       - backend-dev
     ports:
