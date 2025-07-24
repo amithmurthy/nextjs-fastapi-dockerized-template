@@ -1,7 +1,13 @@
 #!/bin/bash
 
-# Enhanced production environment startup script
+# Enhanced production environment startup script with dynamic port allocation
 set -e
+
+# Source port management functions
+source "$(dirname "$0")/port-manager.sh"
+
+# Load existing port assignments first
+load_port_assignments
 
 # Load environment variables if .env exists
 if [ -f .env ]; then
@@ -19,6 +25,11 @@ PROD_BACKEND_PORT="${PROD_BACKEND_PORT:-${BACKEND_PORT:-8001}}"
 # Export for docker-compose
 export PROD_FRONTEND_PORT
 export PROD_BACKEND_PORT
+
+# Check for port conflicts and resolve them
+check_and_resolve_ports "prod"
+
+# Update API URLs with resolved ports
 export PROD_API_URL="${PROD_API_URL:-${API_URL:-http://backend:8000}}"
 export PROD_NEXT_PUBLIC_API_URL="${PROD_NEXT_PUBLIC_API_URL:-${NEXT_PUBLIC_API_URL:-http://localhost:$PROD_BACKEND_PORT}}"
 

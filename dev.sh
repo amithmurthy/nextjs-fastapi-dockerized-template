@@ -1,7 +1,13 @@
 #!/bin/bash
 
-# Enhanced development environment startup script
+# Enhanced development environment startup script with dynamic port allocation
 set -e
+
+# Source port management functions
+source "$(dirname "$0")/port-manager.sh"
+
+# Load existing port assignments first
+load_port_assignments
 
 # Load environment variables if .env exists
 if [ -f .env ]; then
@@ -19,6 +25,11 @@ DEV_BACKEND_PORT="${DEV_BACKEND_PORT:-${BACKEND_PORT:-8000}}"
 # Export for docker-compose
 export DEV_FRONTEND_PORT
 export DEV_BACKEND_PORT
+
+# Check for port conflicts and resolve them
+check_and_resolve_ports "dev"
+
+# Update API URLs with resolved ports
 export DEV_API_URL="${DEV_API_URL:-${API_URL:-http://backend-dev:8000}}"
 export DEV_NEXT_PUBLIC_API_URL="${DEV_NEXT_PUBLIC_API_URL:-${NEXT_PUBLIC_API_URL:-http://localhost:$DEV_BACKEND_PORT}}"
 
